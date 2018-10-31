@@ -1,0 +1,107 @@
+// -----------------------------------------------------
+// COMP 352
+// Assignment #1
+// Question 4 a)
+// Written by: Olivier D'Angelo #26729916
+// -----------------------------------------------------
+
+import java.io.*;
+import java.util.Scanner;
+
+public class Fibonacci {
+
+	public static void main(String[] args) {
+		// Create keyboard input stream
+		String inputFileName = "Initial_Book_Info.txt";
+		Scanner kb = new Scanner(System.in);
+		int inventorySize;
+		boolean sorted = false;
+		// Open output/input stream
+		Scanner in = null;
+		PrintWriter out = null;
+		
+		
+
+		// PART 2 VARIABLES:
+		BufferedReader br = null;
+		ObjectOutputStream oos = null;
+		ObjectInputStream ois = null;
+		String sortedFileName = "Sorted_Book_Info.txt", binaryFileName = "Book.dat";
+		
+		System.out.println("Please enter a different file name for the corrected book inventory:");
+		// Use File Class to assure input file is not over written
+		File outputFileName = new File(kb.nextLine());
+		while (outputFileName.exists()) {
+			System.out.println("Error: There is an existing file called: " + inputFileName + ".");
+			System.out.println("That file already has a size of " + outputFileName.length() + " bytes.");
+			System.out.print("\nPlease enter another file name to copy to: ");
+			outputFileName = new File(kb.next());
+		}
+
+		// Open file I/O stream, catch File Not Found Exception
+		try {
+			in = new Scanner(new FileInputStream(inputFileName));
+			inventorySize = BookInventory1.inventorySize(in);
+
+			in = new Scanner(new FileInputStream(inputFileName));
+			System.out.println("Inventory contents of file " + inputFileName + ":\n"
+					+ "==================================================================");
+			BookInventory1.displayFileContent(in);
+
+			// Loop until all ISBN's are unique
+			in = new Scanner(new FileInputStream(inputFileName));
+			BookInventory1.initiateBkArr(in, inventorySize);
+			while (!sorted) {
+				try {
+					out = new PrintWriter(new FileOutputStream(outputFileName));
+					in = new Scanner(new FileInputStream(inputFileName));
+					BookInventory1.fixInventory(in, out, inventorySize);
+					sorted = true;
+				} catch (DuplicateISBNException e) {
+					System.out.println(e.getMessage());
+					BookInventory1.getBookArr(e.getInventoryIndex()).setISBN(kb.nextLong());
+				}
+			}
+			// Display corrected inventory
+			System.out.println("Corrected inventory contents of the file " + outputFileName + ":"
+					+ "\n================================================================");
+			in = new Scanner(new FileInputStream(outputFileName));
+			BookInventory1.displayFileContent(in);
+
+			// PART 2
+			// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+			// Variable for part 2:
+			out = new PrintWriter(new FileOutputStream(sortedFileName));
+			br = new BufferedReader(new FileReader(sortedFileName));
+			
+
+			// First sort the bkArr from the BookInventory1 class:
+			System.out.println("\nSorted Inventory contents:"
+					+ "\n==================================================================");
+			BookInventory2.sortInventory(out);
+			// Printed out sorted file:
+			BookInventory2.displayFileContents(br);
+			// Append to file.
+			out = new PrintWriter(new FileOutputStream(sortedFileName, true));
+			BookInventory2.addRecords(out);
+			// Display contents of new appended inventory
+			br = new BufferedReader(new FileReader(sortedFileName));
+			BookInventory2.displayFileContents(br);
+
+			// Sequential Search:
+			BookInventory2.sequentialBookSearch(BookInventory2.bkArr, 0, BookInventory2.bkArr.length, 800003243);
+			// Binary search: **NullPointerException***??
+			//BookInventory2.binaryBookSearch(BookInventory2.bkArr, 0, BookInventory2.bkArr.length, 800003243);
+			
+			//Write Book Objects to binary File:
+			BookInventory2.writeBinaryFile(oos, binaryFileName);
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Error: The following file cannot be found:" + inputFileName);
+		} catch (IOException e) {
+			System.out.println("Error reading " + inputFileName);
+		}
+	}
+
+}
