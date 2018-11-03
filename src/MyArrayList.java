@@ -34,7 +34,7 @@ public class MyArrayList<E> implements List<E> {
         if (size() >= MyArray.length) {
             ensureCapacity();
         }
-        for (int i=size-1; i<=index; i--) {
+        for (int i=size-1; i>=index; i--) {
             MyArray[i] = MyArray[i+1];
         }
         MyArray[index] = element;

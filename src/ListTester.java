@@ -2,28 +2,84 @@ import java.util.*;
 
 public class ListTester {
 
+    public static <E> void printArray(E[] inputArray) {
+        // display array elements
+        for (E element : inputArray)
+            System.out.printf("%s ", element);
+
+        System.out.println();
+    }
+
     public static void main(String[] args) {
-        int[] NValues = new int[] {10, 100, 1000};
-        int[] NTiming = new int[NValues.length];
+        Integer[] NValues = new Integer[] {10, 100, 1000, 10000, 10000};
+        Double[] NTiming = new Double[NValues.length];
+        Double[] NTiming2 = new Double[NValues.length];
+        Integer[][] RandomNumbersArr = new Integer[NValues.length][];
+
+        long startTime;
+        long endTime;
+        Double duration;
 
         MyArrayList<Integer> ArrList = new MyArrayList<>();
 
+        Random random = new Random();
+
+        RandomNumbersArr = GenerateRandArray(NValues);
+
         //Insert @end test case:
-        for (int i=0; i<NValues.length -1; i++) {
+        for (int i=0; i<NValues.length; i++) {
+            startTime = System.nanoTime();
             for (int j =0; j<NValues[i]-1; j++) {
-                long startTime = System.nanoTime();
-                ArrList.add(randomNumberInRange(0, 2*NValues[i]));
-                long endTime = System.nanoTime();
-                long duration = (endTime - startTime);
-                NTiming[i] = (int) duration;
+                ArrList.add(RandomNumbersArr[i][j]);
             }
+            endTime = System.nanoTime();
+            duration = (endTime - startTime)/(double) 1000000;
+            NTiming[i] = duration;
+        }
+        //Insert Randomly:
+        for (int i=0; i<NValues.length; i++) {
+            startTime = System.nanoTime();
+            for (int j =0; j<NValues[i]-1; j++) {
+                ArrList.add(random.nextInt(ArrList.size() + 1), RandomNumbersArr[i][j]);
+            }
+            endTime = System.nanoTime();
+            duration = (endTime - startTime)/(double) 1000000;
+            NTiming2[i] = duration;
         }
 
-        System.out.println(NTiming);
+        //Default ArrayList Class
+        ArrayList<Integer> DefArrList = new ArrayList<>(NValues.length);
+
+        //Insert @end test case:
+        for (int i=0; i<NValues.length; i++) {
+            startTime = System.nanoTime();
+            for (int j =0; j<NValues[i]-1; j++) {
+                ArrList.add(RandomNumbersArr[i][j]);
+            }
+            endTime = System.nanoTime();
+            duration = (endTime - startTime)/(double) 1000000;
+            NTiming[i] = duration;
+        }
+
+
+        //Print Random Values:
+        System.out.println(RandomNumbersArr[1][4] + ", " +RandomNumbersArr[3][24]);
+        printArray(NValues);
+        printArray(NTiming);
+        printArray(NTiming2);
+
     }
 
-    public static int randomNumberInRange(int min, int max) {
+    public static Integer[][] GenerateRandArray(Integer[] NValuesArray) {
+        int min = 0;
+        Integer[][] RandomIntArray = new Integer[NValuesArray.length][NValuesArray[NValuesArray.length-1]];
         Random random = new Random();
-        return random.nextInt((max - min) + 1) + min;
+
+        for (int i =0; i<NValuesArray.length; i++) {
+            for (int j=0; j<NValuesArray[i]-1; j++) {
+                RandomIntArray[i][j] = random.nextInt((2 * NValuesArray[i] - min) + 1);
+            }
+        }
+        return RandomIntArray;
     }
 }
