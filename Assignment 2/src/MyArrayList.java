@@ -96,7 +96,8 @@ public class MyArrayList<E> implements List<E> {
 
     @Override
     public void clear() {
-        this.MyArray = new Object[0];
+        this.MyArray = new Object[DEFAULT_CAPACITY];
+        this.size = 0;
     }
 
     @Override
