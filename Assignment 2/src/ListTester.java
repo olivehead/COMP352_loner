@@ -22,7 +22,7 @@ public class ListTester {
         MyArrayList<Integer> ArrList = new MyArrayList<>();
         ArrayList<Integer> DefArrList = new ArrayList<>();
         //LinkedList:
-        MyLinkedList<Integer> LinkedList = new MyLinkedList<>();
+        MyLinkedList<Integer> myLinkedList = new MyLinkedList<>();
         LinkedList<Integer> DefLinkedList = new LinkedList<>();
 
         //Timing Output:
@@ -70,12 +70,12 @@ public class ListTester {
         for (int i=0; i<NValues.length; i++) {
             startTime = System.nanoTime();
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.add(RandomNumbersArr[i][j]);
+                myLinkedList.add(RandomNumbersArr[i][j]);
             }
             endTime = System.nanoTime();
             duration = (endTime - startTime)/(double) 1000000;
             InsertEndTime[2][i] = duration;
-            LinkedList.clear();
+            myLinkedList.clear();
         }
 
         //Java LinkedList:
@@ -119,12 +119,12 @@ public class ListTester {
         for (int i=0; i<NValues.length; i++) {
             startTime = System.nanoTime();
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.add(0, RandomNumbersArr[i][j]);
+                myLinkedList.add(0, RandomNumbersArr[i][j]);
             }
             endTime = System.nanoTime();
             duration = (endTime - startTime)/(double) 1000000;
             InsertEndTime[2][i] = duration;
-            LinkedList.clear();
+            myLinkedList.clear();
         }
 
         //Java LinkedList:
@@ -156,24 +156,24 @@ public class ListTester {
         for (int i=0; i<NValues.length; i++) {
             startTime = System.nanoTime();
             for (int j =0; j<NValues[i]-1; j++) {
-                DefArrList.add(random.nextInt(ArrList.size() + 1), RandomNumbersArr[i][j]);
+                DefArrList.add(random.nextInt(DefArrList.size() + 1), RandomNumbersArr[i][j]);
             }
             endTime = System.nanoTime();
             duration = (endTime - startTime)/(double) 1000000;
             InsertRandomTime[1][i] = duration;
-            ArrList.clear();
+            DefArrList.clear();
         }
 
         //MyLinkedList:
         for (int i=0; i<NValues.length; i++) {
             startTime = System.nanoTime();
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.add(random.nextInt(LinkedList.size() + 1), RandomNumbersArr[i][j]);
+                myLinkedList.add(random.nextInt(myLinkedList.size() + 1), RandomNumbersArr[i][j]);
             }
             endTime = System.nanoTime();
             duration = (endTime - startTime)/(double) 1000000;
             InsertEndTime[2][i] = duration;
-            LinkedList.clear();
+            myLinkedList.clear();
         }
 
         //Java LinkedList:
@@ -220,11 +220,11 @@ public class ListTester {
         //MyLinkedList
         for (int i=0; i<NValues.length; i++) {
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.add(RandomNumbersArr[i][j]);
+                myLinkedList.add(RandomNumbersArr[i][j]);
             }
             startTime = System.nanoTime();
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.remove(0);
+                myLinkedList.remove(0);
             }
             endTime = System.nanoTime();
             duration = (endTime - startTime)/(double) 1000000;
@@ -277,11 +277,11 @@ public class ListTester {
         //MyLinkedList
         for (int i=0; i<NValues.length; i++) {
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.add(RandomNumbersArr[i][j]);
+                myLinkedList.add(RandomNumbersArr[i][j]);
             }
             startTime = System.nanoTime();
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.remove(LinkedList.size()-1);
+                myLinkedList.remove(myLinkedList.size()-1);
             }
             endTime = System.nanoTime();
             duration = (endTime - startTime)/(double) 1000000;
@@ -336,11 +336,11 @@ public class ListTester {
         //MyLinkedList
         for (int i=0; i<NValues.length; i++) {
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.add(RandomNumbersArr[i][j]);
+                myLinkedList.add(RandomNumbersArr[i][j]);
             }
             startTime = System.nanoTime();
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.remove((int) RandomNumbersArr[i][random.nextInt(LinkedList.size() + 1)]);
+                myLinkedList.remove((int) RandomNumbersArr[i][random.nextInt(myLinkedList.size() + 1)]);
             }
             endTime = System.nanoTime();
             duration = (endTime - startTime)/(double) 1000000;
@@ -393,11 +393,11 @@ public class ListTester {
         //MyLinkedList
         for (int i=0; i<NValues.length; i++) {
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.add(RandomNumbersArr[i][j]);
+                myLinkedList.add(RandomNumbersArr[i][j]);
             }
             startTime = System.nanoTime();
             for (int j =0; j<NValues[i]-1; j++) {
-                LinkedList.remove((Integer) random.nextInt(2 * NValues[i]+ 1));
+                myLinkedList.remove((Integer) random.nextInt(2 * NValues[i]+ 1));
             }
             endTime = System.nanoTime();
             duration = (endTime - startTime)/(double) 1000000;
